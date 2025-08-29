@@ -6,8 +6,8 @@ from discord.ext import commands
 from storage import Storage
 from models import Event
 import asyncio
-import json
 import logging
+from config import get_roles_config
 
 # Enable logging
 logging.basicConfig(level=logging.INFO)
@@ -50,8 +50,7 @@ class EventsCog(commands.Cog):
 
         async def ping():
             logging.info(f"Firing ping for event: {description} at {time}")
-            with open("config_roles.json", "r") as f:
-                config = json.load(f)
+            config = get_roles_config()
             role_id = config.get("role_id")
             if not role_id:
                 await ctx.send("❌ No role configured for pings. Use `!addrole` to set a role.")
@@ -117,8 +116,7 @@ class EventsCog(commands.Cog):
             await ctx.send("❌ Time must be in **HH:MM** (24h, UTC). Example: `14:30`")
             return
 
-        with open("config_roles.json", "r") as f:
-            config = json.load(f)
+        config = get_roles_config()
         role_id = config.get("role_id")
         if not role_id:
             await ctx.send("❌ No role configured for events. Use `!addrole` to set a role first.")
@@ -195,8 +193,7 @@ class EventsCog(commands.Cog):
         """
         Shows the role that is configured to be pinged.
         """
-        with open("config_roles.json", "r") as f:
-            config = json.load(f)
+        config = get_roles_config()
         role_id = config.get("role_id")
         if not role_id:
             await ctx.send("❌ No role configured for pings. Use `!addrole` to set a role.")
@@ -219,20 +216,3 @@ class EventsCog(commands.Cog):
             await ctx.send("❌ Configured role/user not found in this guild. Please use `!addrole` to set a valid role or user.")
             return
 
-    @commands.command(name="help") # Renamed from eventhelp to help
-    async def help(self, ctx: commands.Context):
-        """
-        Shows the available commands and their usage.
-        """
-        help_message = """
-        **Available Commands:**
-        `!addrole @Role`: Adds a role to be pinged for events.
-        `!removerole`: Removes the role that is configured to be pinged.
-        `!addevent HH:MM Description`: Adds an event at UTC HH:MM.
-        `!listevents`: Lists today's events (UTC).
-        `!clearevents`: Clears all of today's events.
-        `!removeevent HH:MM`: Removes a specific event by its UTC HH:MM.
-        `!listroles`: Shows the role that is configured to be pinged.
-        `!help`: Shows this help message.
-        """
-        await ctx.send(help_message)
