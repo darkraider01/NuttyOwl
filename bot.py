@@ -29,6 +29,23 @@ async def on_ready():
     print(f"✅ Logged in as {bot.user} (id={bot.user.id})")
     # Start background scheduler
     await scheduler.start()
+    
+    # Recreate asyncio tasks for existing events
+    events_cog = bot.get_cog('EventsCog')
+    if events_cog and bot.guilds:
+        # Find a suitable channel to use as context
+        ctx_channel = None
+        for guild in bot.guilds:
+            for channel in guild.text_channels:
+                if channel.permissions_for(guild.me).send_messages:
+                    ctx_channel = channel
+                    break
+            if ctx_channel:
+                break
+        
+        if ctx_channel:
+            await events_cog.recreate_tasks_for_existing_events(ctx_channel)
+            print("✅ Recreated scheduled tasks for existing events")
 
 
 @bot.command(name="addrole")

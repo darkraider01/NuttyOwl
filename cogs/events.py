@@ -81,12 +81,26 @@ class EventsCog(commands.Cog):
             except discord.NotFound:
                 await ctx.send("❌ Configured role/user not found in this guild. Please use `!addrole` to set a valid role or user.")
                 return
-            # Remove the event after firing the ping
-            self.storage.remove(time)
-            logging.info(f"Removed event: {description} at {time} from storage")
+            # Remove the event only after the final ping (at event time)
+            if delta == timedelta(minutes=0):
+                self.storage.remove(time)
+                logging.info(f"Removed event: {description} at {time} from storage")
 
         await asyncio.sleep(seconds_until_ping)
         await ping()
+
+    async def recreate_tasks_for_existing_events(self, ctx: commands.Context):
+        """
+        Recreates asyncio tasks for all existing events from storage.
+        """
+        events = self.storage.all()
+        logging.info(f"Recreating tasks for {len(events)} events.")
+        for event in events:
+            # Schedule 1-hour, 5-minute, and at-event-time pings
+            asyncio.create_task(self._schedule_ping(ctx, event.time_hhmm, event.description, timedelta(hours=1)))
+            asyncio.create_task(self._schedule_ping(ctx, event.time_hhmm, event.description, timedelta(minutes=5)))
+            asyncio.create_task(self._schedule_ping(ctx, event.time_hhmm, event.description, timedelta(minutes=0)))
+        logging.info("Finished recreating tasks.")
 
     @commands.command(name="addevent")
     async def add_event(self, ctx: commands.Context, time: str = None, *, description: str = None):

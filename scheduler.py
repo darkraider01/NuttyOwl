@@ -61,10 +61,18 @@ class UtcScheduler:
         self.storage.remove(hhmm)
 
     async def _fire_event(self, event: Event) -> None:
-        # Broadcast to every guild where the role exists
+        # Broadcast to every guild where the role/user exists
         for guild in self.client.guilds:
-            role = guild.get_role(event.role_id)
-            if role is None:
+            # Try to get as role first
+            target = guild.get_role(event.role_id)
+            if target is None:
+                # If not a role, try to get as member
+                try:
+                    target = await guild.fetch_member(event.role_id)
+                except discord.NotFound:
+                    continue
+            
+            if target is None:
                 continue
 
             channel = self._pick_channel(guild)
@@ -72,7 +80,7 @@ class UtcScheduler:
                 continue
 
             try:
-                await channel.send(f"🔔 {role.mention} Reminder (UTC {event.time_hhmm}): **{event.description}**")
+                await channel.send(f"🔔 {target.mention} Reminder (UTC {event.time_hhmm}): **{event.description}**")
             except discord.Forbidden:
                 # Missing permissions in this channel; skip
                 continue
