@@ -3,6 +3,7 @@ import asyncio
 from datetime import datetime, timezone, timedelta
 from typing import Optional
 import discord
+import logging
 from storage import Storage
 from models import Event
 
@@ -63,14 +64,12 @@ class UtcScheduler:
     async def _fire_event(self, event: Event) -> None:
         # Broadcast to every guild where the role/user exists
         for guild in self.client.guilds:
-            # Try to get as role first
             target = guild.get_role(event.role_id)
             if target is None:
-                # If not a role, try to get as member
                 try:
                     target = await guild.fetch_member(event.role_id)
                 except discord.NotFound:
-                    continue
+                    continue # Target not found as member either
             
             if target is None:
                 continue
@@ -84,8 +83,13 @@ class UtcScheduler:
             except discord.Forbidden:
                 # Missing permissions in this channel; skip
                 continue
-            except Exception:
-                # Avoid crashing the loop
+            except discord.HTTPException as e:
+                # Catch other Discord API errors
+                logging.error(f"Error sending message in guild {guild.id}, channel {channel.id}: {e}")
+                continue
+            except Exception as e:
+                # Catch any other unexpected errors
+                logging.error(f"An unexpected error occurred in guild {guild.id}, channel {channel.id}: {e}")
                 continue
 
     def _pick_channel(self, guild: discord.Guild) -> Optional[discord.TextChannel]:

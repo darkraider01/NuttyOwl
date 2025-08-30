@@ -1,0 +1,12 @@
+[2025-08-31 02:55:39] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-08-31 02:55:39] [INFO    ] discord.client: logging in using static token
+[2025-08-31 02:55:41] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 9af681bdf9910f40b7907c5f033aa26a).
+[2025-08-31 03:06:35] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "removeroles" is not found
+[2025-08-31 03:07:18] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-08-31 03:10:13] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-08-31 03:11:04] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-08-31 03:11:04] [INFO    ] discord.client: logging in using static token
+[2025-08-31 03:11:07] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: d93a4e40f1de3d8d7b57797a9bd4f732).
+[2025-08-31 03:12:57] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "listrole" is not found

@@ -3,6 +3,8 @@ import asyncio
 import discord
 from discord.ext import commands
 import datetime
+import logging
+import logging.handlers
 from config import (
     DISCORD_BOT_TOKEN,
     COMMAND_PREFIX,
@@ -14,8 +16,23 @@ from config import (
 from storage import Storage
 from scheduler import UtcScheduler
 from cogs.events import EventsCog
-import cogs.events
-from typing import Union # Import Union
+import cogs.events # Re-adding this import
+from typing import Union # Re-adding this import
+
+# Configure logging
+logger = logging.getLogger('discord')
+logger.setLevel(logging.INFO)
+
+handler = logging.handlers.RotatingFileHandler(
+    filename='discord.log',
+    encoding='utf-8',
+    maxBytes=32 * 1024 * 1024, # 32 MiB
+    backupCount=5, # Rotate through 5 files
+)
+dt_fmt = '%Y-%m-%d %H:%M:%S'
+formatter = logging.Formatter('[{asctime}] [{levelname:<8}] {name}: {message}', dt_fmt, style='{')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -25,7 +42,7 @@ intents.members = True # Added to allow fetching members for addrole command
 class PingBot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.start_time = datetime.datetime.utcnow()
+        self.start_time = datetime.datetime.now(datetime.timezone.utc)
 
 bot = PingBot(command_prefix=COMMAND_PREFIX, intents=intents, help_command=None)
 
@@ -92,7 +109,7 @@ async def uptime(ctx: commands.Context):
     """
     Shows how long the bot has been online.
     """
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.now(datetime.timezone.utc)
     delta = now - bot.start_time
     
     hours, remainder = divmod(int(delta.total_seconds()), 3600)

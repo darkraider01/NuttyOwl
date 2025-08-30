@@ -1,5 +1,5 @@
 from __future__ import annotations
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List
 import discord
 from discord.ext import commands
@@ -9,8 +9,6 @@ import asyncio
 import logging
 from config import get_roles_config
 
-# Enable logging
-logging.basicConfig(level=logging.INFO)
 
 
 def _validate_hhmm(hhmm: str) -> bool:
@@ -40,8 +38,8 @@ class EventsCog(commands.Cog):
             await ctx.send("❌ Invalid time format. Please use HH:MM (24h, UTC). Example: `14:30`")
             return
 
-        now = datetime.utcnow()
-        target_time = datetime(now.year, now.month, now.day, event_time.hour, event_time.minute) - delta
+        now = datetime.now(timezone.utc)
+        target_time = datetime(now.year, now.month, now.day, event_time.hour, event_time.minute, tzinfo=timezone.utc) - delta
         if target_time < now:
             target_time += timedelta(days=1)  # Schedule for tomorrow if in the past
 
@@ -57,22 +55,24 @@ class EventsCog(commands.Cog):
                 return
 
             try:
-                # Try to get as role first
                 target = ctx.guild.get_role(int(role_id))
                 if not target:
-                    # If not a role, try to get as member
-                    target = await ctx.guild.fetch_member(int(role_id))
+                    try:
+                        target = await ctx.guild.fetch_member(int(role_id))
+                    except discord.NotFound:
+                        pass # Target not found as member either
+                
                 if not target:
                     await ctx.send("❌ Invalid role/user ID. Please use `!addrole` to set a valid role or user.")
                     return
                 
                 # Check if the target is a user and if they are mentionable
-                if isinstance(target, discord.Member) and not target.bot and target.mention:
+                if isinstance(target, discord.Member):
                     await ctx.send(f"🔔 {target.mention} Reminder (UTC {time}): **{description}**")
-                elif isinstance(target, discord.Role) and target.mentionable:
+                elif isinstance(target, discord.Role):
                     await ctx.send(f"🔔 {target.mention} Reminder (UTC {time}): **{description}**")
-                else:
-                    await ctx.send(f"🔔 Reminder (UTC {time}): **{description}** (Couldn't mention {target.name})")
+                else: # Fallback for any other unhandled cases, though it should ideally be covered by above
+                    await ctx.send(f"🔔 Reminder (UTC {time}): **{description}**")
 
             except ValueError:
                 await ctx.send("❌ Invalid role/user ID format. Please use `!addrole` to set a valid role or user.")
@@ -156,10 +156,22 @@ class EventsCog(commands.Cog):
             await ctx.send("No events scheduled today (UTC).")
             return
 
-        lines: List[str] = [
-            f"⏰ **{e.time_hhmm} UTC** → <@&{e.role_id}> : {e.description}"
-            for e in events
-        ]
+        lines: List[str] = []
+        for event in events:
+            # Get the target (role or user) to mention for each event
+            target_mention = ""
+            try:
+                target = ctx.guild.get_role(int(event.role_id))
+                if not target:
+                    target = await ctx.guild.fetch_member(int(event.role_id))
+                if target:
+                    target_mention = target.mention
+                else:
+                    target_mention = f"<@&{event.role_id}>" # Fallback to raw mention if not found
+            except (ValueError, discord.NotFound):
+                target_mention = f"<@&{event.role_id}>" # Fallback to raw mention if conversion fails
+            
+            lines.append(f"⏰ **{event.time_hhmm} UTC** → {target_mention} : {event.description}")
         await ctx.send("**Today's Events (UTC):**\n" + "\n".join(lines))
 
     @commands.command(name="clearevents")
@@ -188,7 +200,7 @@ class EventsCog(commands.Cog):
         else:
             await ctx.send(f"ℹ️ No event found at **{time} UTC**.")
 
-    @commands.command(name="listroles")
+    @commands.command(name="listroles", aliases=["listrole"])
     async def list_roles(self, ctx: commands.Context):
         """
         Shows the role that is configured to be pinged.
