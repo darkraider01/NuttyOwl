@@ -15,9 +15,9 @@ from config import (
 )
 from storage import Storage
 from scheduler import UtcScheduler
-from cogs.events import EventsCog
-import cogs.events # Re-adding this import
-from typing import Union # Re-adding this import
+from events import EventsCog
+from models import Clipper
+from typing import Union
 
 # Configure logging
 logger = logging.getLogger('discord')
@@ -33,6 +33,11 @@ dt_fmt = '%Y-%m-%d %H:%M:%S'
 formatter = logging.Formatter('[{asctime}] [{levelname:<8}] {name}: {message}', dt_fmt, style='{')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+
+# Add a StreamHandler to output log messages to the console
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -53,7 +58,7 @@ scheduler = UtcScheduler(bot, storage, DEFAULT_CHANNEL_NAME)
 
 @bot.event
 async def on_ready():
-    # Load persisted events once connected
+    # Load persisted data once connected
     storage.load()
     print(f"✅ Logged in as {bot.user} (id={bot.user.id})")
     # Start background scheduler
@@ -75,6 +80,18 @@ async def on_ready():
         if ctx_channel:
             await events_cog.recreate_tasks_for_existing_events(ctx_channel)
             print("✅ Recreated scheduled tasks for existing events")
+    
+    # Register dynamic clipper commands
+    # Unregister dynamic commands first to prevent CommandRegistrationError on reconnects
+    for clipper in storage.all_clippers():
+        existing_command = bot.get_command(clipper.command_name)
+        if existing_command:
+            bot.remove_command(existing_command.name)
+
+    # Then, register dynamic clipper commands
+    for clipper in storage.all_clippers():
+        bot.add_command(create_clipper_command(clipper.command_name, clipper.description))
+    print(f"✅ Loaded {len(storage.all_clippers())} clipper commands.")
 
 
 @bot.command(name="addrole")
@@ -128,6 +145,34 @@ async def uptime(ctx: commands.Context):
     await ctx.send(f"**Uptime:** {uptime_str}")
 
 
+def create_clipper_command(command_name: str, description: str):
+    @bot.command(name=command_name, help=description)
+    async def dynamic_clipper_command(ctx: commands.Context):
+        """
+        A custom clipper command.
+        """
+        await ctx.send(description)
+    return dynamic_clipper_command
+
+
+@bot.command(name="clipper")
+async def clipper_command(ctx: commands.Context, command_name: str, *, description: str):
+    """
+    Saves a new clipper command.
+    Usage: !clipper <command_name> <description>
+    """
+    if storage.get_clipper(command_name):
+        await ctx.send(f"❌ Clipper command `!{command_name}` already exists.")
+        return
+
+    clipper = Clipper(command_name=command_name, description=description)
+    storage.upsert_clipper(clipper)
+
+    # Register the new command dynamically
+    bot.add_command(create_clipper_command(command_name, description))
+    await ctx.send(f"✅ Clipper command `!{command_name}` saved.")
+
+
 bot.remove_command('help')
 
 @bot.command(name="help")
@@ -143,6 +188,10 @@ async def help_command(ctx: commands.Context):
 
     # Dynamically get all commands, including those in cogs
     for command in bot.commands:
+        # Filter out dynamically created clipper commands from the main help if they are not explicitly defined
+        if command.name not in ["addrole", "removerole", "uptime", "clipper", "clippers", "clearclippers", "help"] and storage.get_clipper(command.name):
+            continue
+
         # Format the command usage and description
         usage = f"`{COMMAND_PREFIX}{command.name} {command.signature}`"
         description = command.help or "No description provided."
@@ -152,10 +201,53 @@ async def help_command(ctx: commands.Context):
     await ctx.send(embed=embed)
 
 
+@bot.command(name="clippers")
+async def list_clippers(ctx: commands.Context):
+    """
+    Lists all saved clipper commands.
+    """
+    clippers = storage.all_clippers()
+    if not clippers:
+        await ctx.send("ℹ️ No clipper commands saved yet.")
+        return
+
+    embed = discord.Embed(
+        title="Saved Clipper Commands",
+        description="Here are all the clipper commands you've saved:",
+        color=discord.Color.green()
+    )
+
+    for clipper in clippers:
+        # Truncate description for embed field to prevent HTTPException (max 1024 characters)
+        description = clipper.description
+        # Truncate description for embed field to a shorter length for readability
+        max_length = 200  # Adjust this value as needed
+        if len(description) > max_length:
+            description = description[:max_length - 3] + "..." # Truncate and add ellipsis
+        embed.add_field(name=f"`!{clipper.command_name}`", value=description, inline=False)
+    
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="clearclippers")
+async def clear_clippers(ctx: commands.Context):
+    """
+    Clears all saved clipper commands.
+    """
+    # Unregister dynamic commands
+    for clipper in storage.all_clippers():
+        command = bot.get_command(clipper.command_name)
+        if command:
+            bot.remove_command(command.name)
+
+    storage.clear_clippers()
+    await ctx.send("✅ All clipper commands have been cleared.")
+
+
 async def main():
     async with bot:
         # Register cogs before login
-        await bot.add_cog(cogs.events.EventsCog(bot, storage))
+        await bot.add_cog(EventsCog(bot, storage))
         await bot.start(DISCORD_BOT_TOKEN)
 
 

@@ -12,3 +12,15 @@ class Event:
     @classmethod
     def from_dict(cls, data: dict):
         return cls(**data)
+
+@dataclass
+class Clipper:
+    command_name: str
+    description: str
+
+    def to_dict(self):
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(**data)

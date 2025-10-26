@@ -92,7 +92,7 @@ class EventsCog(commands.Cog):
         """
         Recreates asyncio tasks for all existing events from storage.
         """
-        events = self.storage.all()
+        events = self.storage.all_events()
         logging.info(f"Recreating tasks for {len(events)} events.")
         for event in events:
             # Schedule 1-hour, 5-minute, and at-event-time pings
@@ -151,7 +151,7 @@ class EventsCog(commands.Cog):
         """
         List today's events (UTC).
         """
-        events = sorted(self.storage.all(), key=lambda e: e.time_hhmm)
+        events = sorted(self.storage.all_events(), key=lambda e: e.time_hhmm)
         if not events:
             await ctx.send("No events scheduled today (UTC).")
             return
@@ -179,7 +179,7 @@ class EventsCog(commands.Cog):
         """
         Clear all of today's events.
         """
-        self.storage.clear()
+        self.storage.clear_events()
         await ctx.send("🗑️ Cleared all events for today (UTC).")
         logging.info("Cleared all events from storage")
 

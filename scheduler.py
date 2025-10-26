@@ -49,7 +49,7 @@ class UtcScheduler:
         if key != self._last_midnight:
             self._last_midnight = key
             # wipe any remaining events (daily semantics)
-            self.storage.clear()
+            self.storage.clear_events()
 
         hhmm = self._utc_now_hhmm()
         events_map = self.storage.get_map()

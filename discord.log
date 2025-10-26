@@ -10,3 +10,491 @@ discord.ext.commands.errors.CommandNotFound: Command "removeroles" is not found
 [2025-08-31 03:11:07] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: d93a4e40f1de3d8d7b57797a9bd4f732).
 [2025-08-31 03:12:57] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command None
 discord.ext.commands.errors.CommandNotFound: Command "listrole" is not found
+[2025-10-26 21:23:52] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-10-26 21:23:52] [INFO    ] discord.client: logging in using static token
+[2025-10-26 21:23:55] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 26bba0f996aa8c18c070a5614af6d43b).
+[2025-10-26 21:23:57] [ERROR   ] discord.client: Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/client.py", line 409, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/ishan/code/NuttyOwl/bot.py", line 76, in on_ready
+    await events_cog.recreate_tasks_for_existing_events(ctx_channel)
+  File "/home/ishan/code/NuttyOwl/events.py", line 95, in recreate_tasks_for_existing_events
+    events = self.storage.all()
+             ^^^^^^^^^^^^^^^^
+AttributeError: 'Storage' object has no attribute 'all'
+[2025-10-26 21:24:19] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 978, in invoke
+    await self.prepare(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 895, in prepare
+    await self._parse_arguments(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 802, in _parse_arguments
+    transformed = await self.transform(ctx, param, attachments)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 654, in transform
+    raise MissingRequiredArgument(param)
+discord.ext.commands.errors.MissingRequiredArgument: command_name is a required argument that is missing.
+[2025-10-26 21:25:01] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 157, in clipper_command
+    bot.add_command(create_clipper_command(command_name, description))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 245, in add_command
+    super().add_command(command)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: CommandRegistrationError: The command bear is already an existing command or alias.
+[2025-10-26 23:19:57] [INFO    ] discord.gateway: Shard ID None has successfully RESUMED session 26bba0f996aa8c18c070a5614af6d43b.
+[2025-10-26 23:21:39] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-10-26 23:21:39] [INFO    ] discord.client: logging in using static token
+[2025-10-26 23:21:41] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 87f9fa15ec061edc403d41aa4bbbf429).
+[2025-10-26 23:21:43] [ERROR   ] discord.client: Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/client.py", line 409, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/ishan/code/NuttyOwl/bot.py", line 76, in on_ready
+    await events_cog.recreate_tasks_for_existing_events(ctx_channel)
+  File "/home/ishan/code/NuttyOwl/events.py", line 95, in recreate_tasks_for_existing_events
+    events = self.storage.all()
+             ^^^^^^^^^^^^^^^^
+AttributeError: 'Storage' object has no attribute 'all'
+[2025-10-26 23:23:13] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clippers
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 211, in list_clippers
+    await ctx.send(embed=embed)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/context.py", line 841, in send
+    return await super().send(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+    )  # type: ignore # The overloads don't support Optional but the implementation does
+    ^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/abc.py", line 1539, in send
+    data = await state.http.send_message(channel.id, params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/http.py", line 744, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+[2025-10-26 23:23:39] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "bear" is not found
+[2025-10-26 23:23:41] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "bears" is not found
+[2025-10-26 23:24:09] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clippers
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 211, in list_clippers
+    await ctx.send(embed=embed)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/context.py", line 841, in send
+    return await super().send(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+    )  # type: ignore # The overloads don't support Optional but the implementation does
+    ^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/abc.py", line 1539, in send
+    data = await state.http.send_message(channel.id, params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/http.py", line 744, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+[2025-10-26 23:24:12] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "bear" is not found
+[2025-10-26 23:24:33] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 160, in clipper_command
+    bot.add_command(create_clipper_command(command_name, description))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 245, in add_command
+    super().add_command(command)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: CommandRegistrationError: The command bear is already an existing command or alias.
+[2025-10-26 23:24:38] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clippers
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 211, in list_clippers
+    await ctx.send(embed=embed)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/context.py", line 841, in send
+    return await super().send(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+    )  # type: ignore # The overloads don't support Optional but the implementation does
+    ^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/abc.py", line 1539, in send
+    data = await state.http.send_message(channel.id, params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/http.py", line 744, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+[2025-10-26 23:24:49] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clippers
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 211, in list_clippers
+    await ctx.send(embed=embed)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/context.py", line 841, in send
+    return await super().send(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+    )  # type: ignore # The overloads don't support Optional but the implementation does
+    ^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/abc.py", line 1539, in send
+    data = await state.http.send_message(channel.id, params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/http.py", line 744, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+[2025-10-26 23:26:44] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-10-26 23:26:44] [INFO    ] discord.client: logging in using static token
+[2025-10-26 23:26:47] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 32f30d43a7bcd45b8f251915bcab8f4f).
+[2025-10-26 23:26:49] [ERROR   ] discord.client: Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/client.py", line 409, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/ishan/code/NuttyOwl/bot.py", line 76, in on_ready
+    await events_cog.recreate_tasks_for_existing_events(ctx_channel)
+  File "/home/ishan/code/NuttyOwl/events.py", line 95, in recreate_tasks_for_existing_events
+    events = self.storage.all()
+             ^^^^^^^^^^^^^^^^
+AttributeError: 'Storage' object has no attribute 'all'
+[2025-10-26 23:26:57] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "bear" is not found
+[2025-10-26 23:27:04] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clippers
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 212, in list_clippers
+    await ctx.send(embed=embed)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/context.py", line 841, in send
+    return await super().send(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+    )  # type: ignore # The overloads don't support Optional but the implementation does
+    ^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/abc.py", line 1539, in send
+    data = await state.http.send_message(channel.id, params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/http.py", line 744, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+[2025-10-26 23:27:35] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 160, in clipper_command
+    bot.add_command(create_clipper_command(command_name, description))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 245, in add_command
+    super().add_command(command)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: CommandRegistrationError: The command bear is already an existing command or alias.
+[2025-10-26 23:27:44] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clippers
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 212, in list_clippers
+    await ctx.send(embed=embed)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/context.py", line 841, in send
+    return await super().send(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+    )  # type: ignore # The overloads don't support Optional but the implementation does
+    ^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/abc.py", line 1539, in send
+    data = await state.http.send_message(channel.id, params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/http.py", line 744, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+[2025-10-26 23:43:15] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-10-26 23:43:15] [INFO    ] discord.client: logging in using static token
+[2025-10-26 23:43:17] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 3bc0f76077c89f3818a1f0181b36cc41).
+[2025-10-26 23:43:19] [ERROR   ] discord.client: Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/client.py", line 409, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/ishan/code/NuttyOwl/bot.py", line 81, in on_ready
+    await events_cog.recreate_tasks_for_existing_events(ctx_channel)
+  File "/home/ishan/code/NuttyOwl/events.py", line 95, in recreate_tasks_for_existing_events
+    events = self.storage.all()
+             ^^^^^^^^^^^^^^^^
+AttributeError: 'Storage' object has no attribute 'all'
+[2025-10-26 23:44:34] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-10-26 23:44:34] [INFO    ] discord.client: logging in using static token
+[2025-10-26 23:44:37] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 9f8c5d9926bb768704489afda356ab6c).
+[2025-10-26 23:44:39] [ERROR   ] discord.client: Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/client.py", line 409, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/ishan/code/NuttyOwl/bot.py", line 86, in on_ready
+    bot.add_command(create_clipper_command(clipper.command_name, clipper.description))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 245, in add_command
+    super().add_command(command)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
+[2025-10-26 23:46:37] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-10-26 23:46:37] [INFO    ] discord.client: logging in using static token
+[2025-10-26 23:46:39] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: efb372f7c2442dade174e896a27853d8).
+[2025-10-26 23:46:41] [ERROR   ] discord.client: Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/client.py", line 409, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/ishan/code/NuttyOwl/bot.py", line 90, in on_ready
+    bot.add_command(create_clipper_command(clipper.command_name, clipper.description))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 245, in add_command
+    super().add_command(command)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
+[2025-10-26 23:47:32] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clippers
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 220, in list_clippers
+    await ctx.send(embed=embed)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/context.py", line 841, in send
+    return await super().send(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+    )  # type: ignore # The overloads don't support Optional but the implementation does
+    ^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/abc.py", line 1539, in send
+    data = await state.http.send_message(channel.id, params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/http.py", line 744, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In embeds.0.fields.0.value: Must be 1024 or fewer in length.
+[2025-10-26 23:47:43] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 978, in invoke
+    await self.prepare(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 895, in prepare
+    await self._parse_arguments(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 802, in _parse_arguments
+    transformed = await self.transform(ctx, param, attachments)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 654, in transform
+    raise MissingRequiredArgument(param)
+discord.ext.commands.errors.MissingRequiredArgument: command_name is a required argument that is missing.
+[2025-10-26 23:49:59] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-10-26 23:49:59] [INFO    ] discord.client: logging in using static token
+[2025-10-26 23:50:02] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 039c0e3f12cc51d553177b8a39a51c21).
+[2025-10-26 23:50:04] [ERROR   ] discord.client: Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/client.py", line 409, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/ishan/code/NuttyOwl/bot.py", line 93, in on_ready
+    bot.add_command(create_clipper_command(clipper.command_name, clipper.description))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 245, in add_command
+    super().add_command(command)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
+[2025-10-26 23:50:57] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/bot.py", line 172, in clipper_command
+    bot.add_command(create_clipper_command(command_name, description))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 245, in add_command
+    super().add_command(command)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command swordland is already an existing command or alias.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: CommandRegistrationError: The command swordland is already an existing command or alias.
+[2025-10-26 23:52:49] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-10-26 23:52:49] [INFO    ] discord.client: logging in using static token
+[2025-10-26 23:52:52] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: b394d35ebe8b1f1322eae2e51adba191).
+[2025-10-26 23:52:54] [ERROR   ] discord.client: Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/client.py", line 409, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/ishan/code/NuttyOwl/bot.py", line 93, in on_ready
+    bot.add_command(create_clipper_command(clipper.command_name, clipper.description))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 245, in add_command
+    super().add_command(command)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
