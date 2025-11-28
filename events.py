@@ -82,7 +82,7 @@ class EventsCog(commands.Cog):
                 return
             # Remove the event only after the final ping (at event time)
             if delta == timedelta(minutes=0):
-                self.storage.remove(time)
+                self.storage.remove_event(time)
                 logging.info(f"Removed event: {description} at {time} from storage")
 
         await asyncio.sleep(seconds_until_ping)
@@ -123,7 +123,7 @@ class EventsCog(commands.Cog):
             return
 
         event = Event(time_hhmm=time, role_id=role_id, description=description.strip())
-        self.storage.upsert(event)
+        self.storage.upsert_event(event)
         
         # Get the target (role or user) to mention
         target_mention = ""
@@ -193,7 +193,7 @@ class EventsCog(commands.Cog):
             await ctx.send("❌ Time must be in **HH:MM** (24h, UTC). Example: `14:30`")
             return
 
-        removed = self.storage.remove(time)
+        removed = self.storage.remove_event(time)
         if removed:
             await ctx.send(f"✅ Removed event at **{time} UTC**.")
             logging.info(f"Removed event: {time} from storage")

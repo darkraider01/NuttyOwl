@@ -59,7 +59,7 @@ class UtcScheduler:
         event = events_map[hhmm]
         await self._fire_event(event)
         # remove after firing
-        self.storage.remove(hhmm)
+        self.storage.remove_event(hhmm)
 
     async def _fire_event(self, event: Event) -> None:
         # Broadcast to every guild where the role/user exists

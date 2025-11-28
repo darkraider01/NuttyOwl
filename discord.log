@@ -498,3 +498,19 @@ Traceback (most recent call last):
   File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
     raise CommandRegistrationError(command.name)
 discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
+[2025-11-05 20:10:03] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2025-11-05 20:10:03] [INFO    ] discord.client: logging in using static token
+[2025-11-05 20:10:05] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 6b3fe910164530450ed9a04fd05d881c).
+[2025-11-05 20:10:07] [ERROR   ] discord.client: Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/client.py", line 409, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/ishan/code/NuttyOwl/bot.py", line 93, in on_ready
+    bot.add_command(create_clipper_command(clipper.command_name, clipper.description))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/bot.py", line 245, in add_command
+    super().add_command(command)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
