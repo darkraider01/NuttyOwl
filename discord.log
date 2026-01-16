@@ -514,3 +514,98 @@ Traceback (most recent call last):
   File "/home/ishan/code/NuttyOwl/venv/lib/python3.13/site-packages/discord/ext/commands/core.py", line 1311, in add_command
     raise CommandRegistrationError(command.name)
 discord.ext.commands.errors.CommandRegistrationError: The command bear is already an existing command or alias.
+[2026-01-11 22:32:16] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2026-01-11 22:32:16] [INFO    ] discord.client: logging in using static token
+[2026-01-11 22:32:18] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 21ad9c94da8dfe712c26c0fc0e4715d1).
+[2026-01-11 22:36:59] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "roles" is not found
+[2026-01-11 22:37:35] [WARNING ] discord.client: PyNaCl is not installed, voice will NOT be supported
+[2026-01-11 22:37:35] [INFO    ] discord.client: logging in using static token
+[2026-01-11 22:37:37] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: c1e2b429abaf5c45c2c0b626b2e8acf0).
+[2026-01-11 22:47:28] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\brand\Code\NuttyOwl\bot.py", line 177, in clipper_command
+    bot.add_command(create_clipper_command(command_name, description, guild_id))
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\bot.py", line 245, in add_command
+    super().add_command(command)
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command test is already an existing command or alias.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: CommandRegistrationError: The command test is already an existing command or alias.
+[2026-01-11 22:48:17] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\brand\Code\NuttyOwl\bot.py", line 177, in clipper_command
+    bot.add_command(create_clipper_command(command_name, description, guild_id))
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\bot.py", line 245, in add_command
+    super().add_command(command)
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command test2 is already an existing command or alias.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: CommandRegistrationError: The command test2 is already an existing command or alias.
+[2026-01-11 22:48:30] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 978, in invoke
+    await self.prepare(ctx)
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 895, in prepare
+    await self._parse_arguments(ctx)
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 810, in _parse_arguments
+    kwargs[name] = await self.transform(ctx, param, attachments)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 654, in transform
+    raise MissingRequiredArgument(param)
+discord.ext.commands.errors.MissingRequiredArgument: description is a required argument that is missing.
+[2026-01-11 22:48:55] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command clipper
+Traceback (most recent call last):
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 190, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\brand\Code\NuttyOwl\bot.py", line 177, in clipper_command
+    bot.add_command(create_clipper_command(command_name, description, guild_id))
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\bot.py", line 245, in add_command
+    super().add_command(command)
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 1311, in add_command
+    raise CommandRegistrationError(command.name)
+discord.ext.commands.errors.CommandRegistrationError: The command test3.0 is already an existing command or alias.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\bot.py", line 1347, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 986, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\brand\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\ext\commands\core.py", line 199, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: CommandRegistrationError: The command test3.0 is already an existing command or alias.
+[2026-01-11 23:44:52] [INFO    ] discord.gateway: Shard ID None has successfully RESUMED session c1e2b429abaf5c45c2c0b626b2e8acf0.

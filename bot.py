@@ -64,22 +64,22 @@ async def on_ready():
     # Start background scheduler
     await scheduler.start()
     
+    
     # Recreate asyncio tasks for existing events
     events_cog = bot.get_cog('EventsCog')
     if events_cog and bot.guilds:
-        # Find a suitable channel to use as context
-        ctx_channel = None
+        # Recreate tasks for each guild
         for guild in bot.guilds:
+            # Find a suitable channel to use as context for this guild
+            ctx_channel = None
             for channel in guild.text_channels:
                 if channel.permissions_for(guild.me).send_messages:
                     ctx_channel = channel
                     break
+            
             if ctx_channel:
-                break
-        
-        if ctx_channel:
-            await events_cog.recreate_tasks_for_existing_events(ctx_channel)
-            print("✅ Recreated scheduled tasks for existing events")
+                await events_cog.recreate_tasks_for_existing_events(ctx_channel, guild.id)
+        print("✅ Recreated scheduled tasks for existing events")
     
     # Register dynamic clipper commands
     # Unregister dynamic commands first to prevent CommandRegistrationError on reconnects
@@ -90,7 +90,7 @@ async def on_ready():
 
     # Then, register dynamic clipper commands
     for clipper in storage.all_clippers():
-        bot.add_command(create_clipper_command(clipper.command_name, clipper.description))
+        bot.add_command(create_clipper_command(clipper.command_name, clipper.description, clipper.guild_id))
     print(f"✅ Loaded {len(storage.all_clippers())} clipper commands.")
 
 
@@ -100,10 +100,11 @@ async def add_role(ctx: commands.Context, target: Union[discord.Role, discord.Me
     Adds a role or user to be pinged for events.
     Usage: !addrole @Role or !addrole @User
     """
-    config = get_roles_config()
+    guild_id = ctx.guild.id
+    config = get_roles_config(guild_id)
     config["role_id"] = target.id
-    save_roles_config(config)
-    await ctx.send(f"✅ {target.mention} will be pinged for events.")
+    save_roles_config(config, guild_id)
+    await ctx.send(f"✅ {target.mention} will be pinged for events in this server.")
 
 
 @bot.command(name="removerole")
@@ -112,13 +113,14 @@ async def remove_role(ctx: commands.Context):
     Removes the role that is configured to be pinged.
     Usage: !removerole
     """
-    config = get_roles_config()
+    guild_id = ctx.guild.id
+    config = get_roles_config(guild_id)
     if "role_id" in config:
         del config["role_id"]
-        save_roles_config(config)
-        await ctx.send("✅ Configured role for pings has been removed.")
+        save_roles_config(config, guild_id)
+        await ctx.send("✅ Configured role for pings has been removed from this server.")
     else:
-        await ctx.send("ℹ️ No role is currently configured for pings.")
+        await ctx.send("ℹ️ No role is currently configured for pings in this server.")
 
 
 @bot.command(name="uptime")
@@ -145,13 +147,15 @@ async def uptime(ctx: commands.Context):
     await ctx.send(f"**Uptime:** {uptime_str}")
 
 
-def create_clipper_command(command_name: str, description: str):
+def create_clipper_command(command_name: str, description: str, guild_id: int):
     @bot.command(name=command_name, help=description)
     async def dynamic_clipper_command(ctx: commands.Context):
         """
         A custom clipper command.
         """
-        await ctx.send(description)
+        # Only respond if command is used in the correct guild
+        if ctx.guild.id == guild_id:
+            await ctx.send(description)
     return dynamic_clipper_command
 
 
@@ -161,16 +165,17 @@ async def clipper_command(ctx: commands.Context, command_name: str, *, descripti
     Saves a new clipper command.
     Usage: !clipper <command_name> <description>
     """
-    if storage.get_clipper(command_name):
-        await ctx.send(f"❌ Clipper command `!{command_name}` already exists.")
+    guild_id = ctx.guild.id
+    if storage.get_clipper(command_name, guild_id):
+        await ctx.send(f"❌ Clipper command `!{command_name}` already exists in this server.")
         return
 
-    clipper = Clipper(command_name=command_name, description=description)
+    clipper = Clipper(command_name=command_name, description=description, guild_id=guild_id)
     storage.upsert_clipper(clipper)
 
     # Register the new command dynamically
-    bot.add_command(create_clipper_command(command_name, description))
-    await ctx.send(f"✅ Clipper command `!{command_name}` saved.")
+    bot.add_command(create_clipper_command(command_name, description, guild_id))
+    await ctx.send(f"✅ Clipper command `!{command_name}` saved for this server.")
 
 
 bot.remove_command('help')
@@ -204,16 +209,17 @@ async def help_command(ctx: commands.Context):
 @bot.command(name="clippers")
 async def list_clippers(ctx: commands.Context):
     """
-    Lists all saved clipper commands.
+    Lists all saved clipper commands for this server.
     """
-    clippers = storage.all_clippers()
+    guild_id = ctx.guild.id
+    clippers = storage.all_clippers(guild_id)
     if not clippers:
-        await ctx.send("ℹ️ No clipper commands saved yet.")
+        await ctx.send("ℹ️ No clipper commands saved yet in this server.")
         return
 
     embed = discord.Embed(
         title="Saved Clipper Commands",
-        description="Here are all the clipper commands you've saved:",
+        description="Here are all the clipper commands you've saved in this server:",
         color=discord.Color.green()
     )
 
@@ -232,16 +238,17 @@ async def list_clippers(ctx: commands.Context):
 @bot.command(name="clearclippers")
 async def clear_clippers(ctx: commands.Context):
     """
-    Clears all saved clipper commands.
+    Clears all saved clipper commands for this server.
     """
-    # Unregister dynamic commands
-    for clipper in storage.all_clippers():
+    guild_id = ctx.guild.id
+    # Unregister dynamic commands for this guild
+    for clipper in storage.all_clippers(guild_id):
         command = bot.get_command(clipper.command_name)
         if command:
             bot.remove_command(command.name)
 
-    storage.clear_clippers()
-    await ctx.send("✅ All clipper commands have been cleared.")
+    storage.clear_clippers(guild_id)
+    await ctx.send("✅ All clipper commands have been cleared for this server.")
 
 
 async def main():

@@ -5,6 +5,7 @@ class Event:
     time_hhmm: str
     role_id: int
     description: str
+    guild_id: int  # Discord server ID
 
     def to_dict(self):
         return asdict(self)
@@ -17,6 +18,7 @@ class Event:
 class Clipper:
     command_name: str
     description: str
+    guild_id: int  # Discord server ID
 
     def to_dict(self):
         return asdict(self)

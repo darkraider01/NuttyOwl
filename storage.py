@@ -55,9 +55,11 @@ class Storage:
             with open(self.clippers_file_path, "w", encoding="utf-8") as f:
                 json.dump(serial_clippers, f, indent=2, ensure_ascii=False)
 
-    def all_events(self) -> List[Event]:
+    def all_events(self, guild_id: int = None) -> List[Event]:
         with self._lock:
-            return list(self._events.values())
+            if guild_id is None:
+                return list(self._events.values())
+            return [e for e in self._events.values() if e.guild_id == guild_id]
 
     def get_events_map(self) -> Dict[str, Event]:
         with self._lock:
@@ -65,44 +67,68 @@ class Storage:
 
     def upsert_event(self, event: Event) -> None:
         with self._lock:
-            self._events[event.time_hhmm] = event
+            # Use composite key: guild_id:time_hhmm
+            key = f"{event.guild_id}:{event.time_hhmm}"
+            self._events[key] = event
             self.save()
 
-    def remove_event(self, hhmm: str) -> bool:
+    def remove_event(self, hhmm: str, guild_id: int = None) -> bool:
         with self._lock:
-            existed = hhmm in self._events
+            # Create a composite key for guild-specific events
+            key = f"{guild_id}:{hhmm}" if guild_id else hhmm
+            existed = key in self._events
             if existed:
-                del self._events[hhmm]
+                del self._events[key]
                 self.save()
             return existed
 
-    def clear_events(self) -> None:
+    def clear_events(self, guild_id: int = None) -> None:
         with self._lock:
-            self._events.clear()
+            if guild_id is None:
+                self._events.clear()
+            else:
+                # Remove only events for this guild
+                keys_to_remove = [k for k, v in self._events.items() if v.guild_id == guild_id]
+                for key in keys_to_remove:
+                    del self._events[key]
             self.save()
 
-    def clear_clippers(self) -> None:
+    def clear_clippers(self, guild_id: int = None) -> None:
         with self._lock:
-            self._clippers.clear()
+            if guild_id is None:
+                self._clippers.clear()
+            else:
+                # Remove only clippers for this guild
+                keys_to_remove = [k for k, v in self._clippers.items() if v.guild_id == guild_id]
+                for key in keys_to_remove:
+                    del self._clippers[key]
             self.save()
 
-    def all_clippers(self) -> List[Clipper]:
+    def all_clippers(self, guild_id: int = None) -> List[Clipper]:
         with self._lock:
-            return list(self._clippers.values())
+            if guild_id is None:
+                return list(self._clippers.values())
+            return [c for c in self._clippers.values() if c.guild_id == guild_id]
 
-    def get_clipper(self, command_name: str) -> Clipper | None:
+    def get_clipper(self, command_name: str, guild_id: int = None) -> Clipper | None:
         with self._lock:
-            return self._clippers.get(command_name)
+            clipper = self._clippers.get(command_name)
+            if clipper and guild_id is not None and clipper.guild_id != guild_id:
+                return None
+            return clipper
 
     def upsert_clipper(self, clipper: Clipper) -> None:
         with self._lock:
-            self._clippers[clipper.command_name] = clipper
+            # Use composite key: guild_id:command_name
+            key = f"{clipper.guild_id}:{clipper.command_name}"
+            self._clippers[key] = clipper
             self.save()
 
-    def remove_clipper(self, command_name: str) -> bool:
+    def remove_clipper(self, command_name: str, guild_id: int = None) -> bool:
         with self._lock:
-            existed = command_name in self._clippers
+            key = f"{guild_id}:{command_name}" if guild_id else command_name
+            existed = key in self._clippers
             if existed:
-                del self._clippers[command_name]
+                del self._clippers[key]
                 self.save()
             return existed

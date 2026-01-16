@@ -48,7 +48,7 @@ class EventsCog(commands.Cog):
 
         async def ping():
             logging.info(f"Firing ping for event: {description} at {time}")
-            config = get_roles_config()
+            config = get_roles_config(ctx.guild.id)
             role_id = config.get("role_id")
             if not role_id:
                 await ctx.send("❌ No role configured for pings. Use `!addrole` to set a role.")
@@ -82,17 +82,18 @@ class EventsCog(commands.Cog):
                 return
             # Remove the event only after the final ping (at event time)
             if delta == timedelta(minutes=0):
-                self.storage.remove_event(time)
+                self.storage.remove_event(time, ctx.guild.id)
                 logging.info(f"Removed event: {description} at {time} from storage")
 
         await asyncio.sleep(seconds_until_ping)
         await ping()
 
-    async def recreate_tasks_for_existing_events(self, ctx: commands.Context):
+    async def recreate_tasks_for_existing_events(self, ctx: commands.Context, guild_id: int = None):
         """
         Recreates asyncio tasks for all existing events from storage.
+        If guild_id is provided, only recreates tasks for that guild.
         """
-        events = self.storage.all_events()
+        events = self.storage.all_events(guild_id)
         logging.info(f"Recreating tasks for {len(events)} events.")
         for event in events:
             # Schedule 1-hour, 5-minute, and at-event-time pings
@@ -116,13 +117,14 @@ class EventsCog(commands.Cog):
             await ctx.send("❌ Time must be in **HH:MM** (24h, UTC). Example: `14:30`")
             return
 
-        config = get_roles_config()
+        guild_id = ctx.guild.id
+        config = get_roles_config(guild_id)
         role_id = config.get("role_id")
         if not role_id:
             await ctx.send("❌ No role configured for events. Use `!addrole` to set a role first.")
             return
 
-        event = Event(time_hhmm=time, role_id=role_id, description=description.strip())
+        event = Event(time_hhmm=time, role_id=role_id, description=description.strip(), guild_id=guild_id)
         self.storage.upsert_event(event)
         
         # Get the target (role or user) to mention
@@ -149,11 +151,12 @@ class EventsCog(commands.Cog):
     @commands.command(name="listevents")
     async def list_events(self, ctx: commands.Context):
         """
-        List today's events (UTC).
+        List today's events (UTC) for this server.
         """
-        events = sorted(self.storage.all_events(), key=lambda e: e.time_hhmm)
+        guild_id = ctx.guild.id
+        events = sorted(self.storage.all_events(guild_id), key=lambda e: e.time_hhmm)
         if not events:
-            await ctx.send("No events scheduled today (UTC).")
+            await ctx.send("No events scheduled today (UTC) for this server.")
             return
 
         lines: List[str] = []
@@ -177,35 +180,38 @@ class EventsCog(commands.Cog):
     @commands.command(name="clearevents")
     async def clear_events(self, ctx: commands.Context):
         """
-        Clear all of today's events.
+        Clear all of today's events for this server.
         """
-        self.storage.clear_events()
-        await ctx.send("🗑️ Cleared all events for today (UTC).")
-        logging.info("Cleared all events from storage")
+        guild_id = ctx.guild.id
+        self.storage.clear_events(guild_id)
+        await ctx.send("🗑️ Cleared all events for today (UTC) in this server.")
+        logging.info(f"Cleared all events from storage for guild {guild_id}")
 
     @commands.command(name="removeevent")
     async def remove_event(self, ctx: commands.Context, time: str):
         """
-        Remove a specific event by its UTC HH:MM.
+        Remove a specific event by its UTC HH:MM for this server.
         Usage: !removeevent 14:30
         """
         if not _validate_hhmm(time):
             await ctx.send("❌ Time must be in **HH:MM** (24h, UTC). Example: `14:30`")
             return
 
-        removed = self.storage.remove_event(time)
+        guild_id = ctx.guild.id
+        removed = self.storage.remove_event(time, guild_id)
         if removed:
-            await ctx.send(f"✅ Removed event at **{time} UTC**.")
-            logging.info(f"Removed event: {time} from storage")
+            await ctx.send(f"✅ Removed event at **{time} UTC** from this server.")
+            logging.info(f"Removed event: {time} from storage for guild {guild_id}")
         else:
-            await ctx.send(f"ℹ️ No event found at **{time} UTC**.")
+            await ctx.send(f"ℹ️ No event found at **{time} UTC** in this server.")
 
     @commands.command(name="listroles", aliases=["listrole"])
     async def list_roles(self, ctx: commands.Context):
         """
         Shows the role that is configured to be pinged.
         """
-        config = get_roles_config()
+        guild_id = ctx.guild.id
+        config = get_roles_config(guild_id)
         role_id = config.get("role_id")
         if not role_id:
             await ctx.send("❌ No role configured for pings. Use `!addrole` to set a role.")

@@ -52,45 +52,48 @@ class UtcScheduler:
             self.storage.clear_events()
 
         hhmm = self._utc_now_hhmm()
-        events_map = self.storage.get_map()
-        if hhmm not in events_map:
-            return
-
-        event = events_map[hhmm]
-        await self._fire_event(event)
-        # remove after firing
-        self.storage.remove_event(hhmm)
+        # Check all events to see if any match the current time
+        all_events = self.storage.all_events()
+        for event in all_events:
+            if event.time_hhmm == hhmm:
+                await self._fire_event(event)
+                # remove after firing
+                self.storage.remove_event(hhmm, event.guild_id)
 
     async def _fire_event(self, event: Event) -> None:
-        # Broadcast to every guild where the role/user exists
-        for guild in self.client.guilds:
-            target = guild.get_role(event.role_id)
-            if target is None:
-                try:
-                    target = await guild.fetch_member(event.role_id)
-                except discord.NotFound:
-                    continue # Target not found as member either
-            
-            if target is None:
-                continue
-
-            channel = self._pick_channel(guild)
-            if channel is None:
-                continue
-
+        # Fire event only in the guild it was created for
+        guild = self.client.get_guild(event.guild_id)
+        if guild is None:
+            logging.warning(f"Guild {event.guild_id} not found for event {event.description}")
+            return
+        
+        target = guild.get_role(event.role_id)
+        if target is None:
             try:
-                await channel.send(f"🔔 {target.mention} Reminder (UTC {event.time_hhmm}): **{event.description}**")
-            except discord.Forbidden:
-                # Missing permissions in this channel; skip
-                continue
-            except discord.HTTPException as e:
-                # Catch other Discord API errors
-                logging.error(f"Error sending message in guild {guild.id}, channel {channel.id}: {e}")
-                continue
-            except Exception as e:
-                # Catch any other unexpected errors
-                logging.error(f"An unexpected error occurred in guild {guild.id}, channel {channel.id}: {e}")
-                continue
+                target = await guild.fetch_member(event.role_id)
+            except discord.NotFound:
+                logging.warning(f"Role/member {event.role_id} not found in guild {guild.id}")
+                return
+        
+        if target is None:
+            return
+
+        channel = self._pick_channel(guild)
+        if channel is None:
+            logging.warning(f"No suitable channel found in guild {guild.id}")
+            return
+
+        try:
+            await channel.send(f"🔔 {target.mention} Reminder (UTC {event.time_hhmm}): **{event.description}**")
+        except discord.Forbidden:
+            # Missing permissions in this channel; skip
+            logging.warning(f"Missing permissions in channel {channel.id} in guild {guild.id}")
+        except discord.HTTPException as e:
+            # Catch other Discord API errors
+            logging.error(f"Error sending message in guild {guild.id}, channel {channel.id}: {e}")
+        except Exception as e:
+            # Catch any other unexpected errors
+            logging.error(f"An unexpected error occurred in guild {guild.id}, channel {channel.id}: {e}")
 
     def _pick_channel(self, guild: discord.Guild) -> Optional[discord.TextChannel]:
         # Prefer system channel if sendable; else by name; else first sendable text channel
